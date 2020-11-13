@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/schickling/crawl-notifier",
   "dependencies": {
-    "crawler": "^0.2.6",
-    "mailgun": "^0.4.2"
+    "crawler": "^1.2.2",
+    "mailgun": "^0.5.0"
   }
 }
