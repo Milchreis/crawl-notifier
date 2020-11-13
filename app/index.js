@@ -1,4 +1,4 @@
-var Crawler = require('crawler').Crawler;
+var Crawler = require('crawler');
 var Mailgun = require('mailgun').Mailgun;
 var readdir = require('fs').readdirSync;
 
@@ -19,7 +19,8 @@ readdir('./crawlers').forEach(function(file) {
   }
 
   var crawler = new Crawler({
-    callback: function(error, result, $) {
+    callback: function(error, result, done) {
+      var $ = result.$;
 
       if (crawlerFile.check($)) {
         var text = 'Notification for ' + crawlerFile.url;
