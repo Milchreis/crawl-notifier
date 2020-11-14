@@ -1,7 +1,7 @@
 var nodemailer = require('nodemailer');
 
 module.exports = {
-    sendViaSmtp: function(from, to, subject, text) {
+    send: function(from, to, subject, text) {
 
         var transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,

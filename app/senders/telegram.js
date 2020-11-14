@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 module.exports = {
-    sendTelegramMessage: function(token, chatId, text) {
+    send: function(token, chatId, text) {
         const url = `https://api.telegram.org/bot${token}/sendMessage`
         axios.post(url, {
                 chat_id: chatId,

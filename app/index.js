@@ -40,20 +40,20 @@ readdir('./crawlers').forEach(function(file) {
 function send(from, to, subject, text) {
 
     if (process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHATID) {
-        telegram.sendTelegramMessage(
+        telegram.send(
             process.env.TELEGRAM_TOKEN,
             process.env.TELEGRAM_CHATID,
             subject + ': ' + text)
     }
 
     if (process.env.MAILGUN_KEY && process.env.MAILGUN_DOMAIN) {
-        mailgun.sendViaMailgun(
+        mailgun.send(
             process.env.MAILGUN_KEY, process.env.MAILGUN_DOMAIN,
             from, to, subject, text)
     }
 
     if (process.env.SMTP_HOST && process.env.SMTP_PORT && process.env.SMTP_USER && process.env.SMTP_PASS) {
-        smtp.sendViaSmtp(
+        smtp.send(
             process.env.SMTP_HOST, process.env.SMTP_PORT,
             process.env.SMTP_USER, process.env.SMTP_PASS,
             from, to, subject, text)
