@@ -26,7 +26,7 @@ readdir('./crawlers').forEach(function(file) {
                 send(crawlerFile.sender, crawlerFile.receiver, text, crawlerFile.text);
 
             } else {
-                console.log('Nothing new. Wait 5 minutes...');
+                console.log('Nothing new. Wait 30 minutes...');
                 setTimeout(function() {
                     crawler.queue(crawlerFile.url);
                 }, 1000 * 60 * 30);
