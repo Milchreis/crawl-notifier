@@ -18,18 +18,18 @@ readdir('./crawlers').forEach(function(file) {
     }
 
     const crawler = new Crawler({
-        callback: async function(error, result, done) {
+        callback: function(error, result, done) {
             var $ = result.$;
 
             if (crawlerFile.check($)) {
                 var text = 'Notification for ' + crawlerFile.url;
-                await sendMail(crawlerFile.sender, crawlerFile.receiver, text, text);
+                send(crawlerFile.sender, crawlerFile.receiver, text, crawlerFile.text);
 
             } else {
                 console.log('Nothing new. Wait 5 minutes...');
                 setTimeout(function() {
                     crawler.queue(crawlerFile.url);
-                }, 1000 * 60 * 5);
+                }, 1000 * 60 * 30);
             }
         }
     });
@@ -37,23 +37,23 @@ readdir('./crawlers').forEach(function(file) {
     crawler.queue(crawlerFile.url);
 });
 
-async function sendMail(from, to, subject, text) {
+function send(from, to, subject, text) {
 
     if (process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHATID) {
-        await telegram.sendTelegramMessage(
+        telegram.sendTelegramMessage(
             process.env.TELEGRAM_TOKEN,
             process.env.TELEGRAM_CHATID,
-            text)
+            subject + ': ' + text)
     }
 
     if (process.env.MAILGUN_KEY && process.env.MAILGUN_DOMAIN) {
-        await mailgun.sendViaMailgun(
+        mailgun.sendViaMailgun(
             process.env.MAILGUN_KEY, process.env.MAILGUN_DOMAIN,
             from, to, subject, text)
     }
 
     if (process.env.SMTP_HOST && process.env.SMTP_PORT && process.env.SMTP_USER && process.env.SMTP_PASS) {
-        await smtp.sendViaSmtp(
+        smtp.sendViaSmtp(
             process.env.SMTP_HOST, process.env.SMTP_PORT,
             process.env.SMTP_USER, process.env.SMTP_PASS,
             from, to, subject, text)
