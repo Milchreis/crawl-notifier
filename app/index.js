@@ -20,8 +20,9 @@ readdir('./crawlers').forEach(function(file) {
     const crawler = new Crawler({
         callback: function(error, result, done) {
             var $ = result.$;
+            var body = result.body;
 
-            if (crawlerFile.check($)) {
+            if (crawlerFile.check($, body)) {
                 var text = 'Notification for ' + crawlerFile.url;
                 send(crawlerFile.sender, crawlerFile.receiver, text, crawlerFile.text);
 
@@ -29,7 +30,7 @@ readdir('./crawlers').forEach(function(file) {
                 console.log('Nothing new. Wait 30 minutes...');
                 setTimeout(function() {
                     crawler.queue(crawlerFile.url);
-                }, 1000 * 60 * 30);
+                }, 1000 * 60 * 5);
             }
         }
     });
