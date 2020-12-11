@@ -9,8 +9,8 @@ if (readdir('./crawlers').length === 0) {
     throw new Error('No crawlers found');
 }
 
-readdir('./crawlers').forEach(function(file) {
-
+readdir('./crawlers').filter(f => f.endsWith('.js')).forEach(function(file) {
+    
     const crawlerFile = require('./crawlers/' + file);
 
     if (!crawlerFile.receiver || !crawlerFile.sender || !crawlerFile.url || !crawlerFile.check) {
@@ -27,10 +27,11 @@ readdir('./crawlers').forEach(function(file) {
                 send(crawlerFile.sender, crawlerFile.receiver, text, crawlerFile.text);
 
             } else {
-                console.log('Nothing new. Wait 30 minutes...');
+                const waitInMinutes = 5
+                console.log(`Nothing new. Wait ${waitInMinutes} minutes...`);
                 setTimeout(function() {
                     crawler.queue(crawlerFile.url);
-                }, 1000 * 60 * 5);
+                }, 1000 * 60 * waitInMinutes);
             }
         }
     });
